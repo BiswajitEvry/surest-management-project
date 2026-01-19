@@ -5,13 +5,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class PasswordHashGenerator {
 
-    public static void main(String[] args) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
+    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
-        String adminPassword = "admin@123";
-        String userPassword = "user@123";
+    private PasswordHashGenerator() {
+    }
 
-        System.out.println("admin@123 => " + encoder.encode(adminPassword));
-        System.out.println("user@123  => " + encoder.encode(userPassword));
+    public static String hashPassword(String rawPassword) {
+        return PASSWORD_ENCODER.encode(rawPassword);
+    }
+
+    public static boolean matches(String rawPassword, String hashedPassword) {
+        return PASSWORD_ENCODER.matches(rawPassword, hashedPassword);
     }
 }

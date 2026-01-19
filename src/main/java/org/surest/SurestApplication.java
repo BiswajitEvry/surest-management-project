@@ -13,9 +13,6 @@ public class SurestApplication {
 
         SpringApplication.run(SurestApplication.class, args);
 
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        String hashedPassword = encoder.encode("admin@123");
-//        System.out.println("password" + hashedPassword);
     }
 
 }

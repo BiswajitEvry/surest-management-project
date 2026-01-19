@@ -22,7 +22,8 @@ public class MemberService {
     @Transactional
     public MemberDto create(MemberDto memberDto) {
         if (memberRepository.existsByEmail(memberDto.getEmail())) {
-            throw new EmailAlreadyExistsException(memberDto.getEmail());
+            throw new EmailAlreadyExistsException();
+
         }
 
         Member member = new Member();

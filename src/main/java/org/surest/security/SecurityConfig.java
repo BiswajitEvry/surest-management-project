@@ -21,12 +21,17 @@ import org.surest.serviceimpl.UserDetailsServiceImpl;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final JwtAuthenticationFilter jwtFilter;
+    private final JwtUtil jwtUtil;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService,
-                          JwtAuthenticationFilter jwtFilter) {
+                          JwtUtil jwtUtil) {
         this.userDetailsService = userDetailsService;
-        this.jwtFilter = jwtFilter;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtUtil, userDetailsService);
     }
 
     @Bean
@@ -47,7 +52,7 @@ public class SecurityConfig {
                         sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
